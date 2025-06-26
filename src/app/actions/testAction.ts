@@ -1,14 +1,12 @@
 "use server";
 
-import { safeAction } from "@/app/libs/next-safe-action";
-import { testSchema } from "@/app/schemas/testSchema";
+import { InferUseActionHookReturn } from "next-safe-action/hooks";
+import { createSafeActionClient } from "next-safe-action";
 
-export const testAction = safeAction.schema(testSchema).action(async () => {
-  try {
-    setTimeout(() => {
-      console.log("SUCCESS");
-    }, 1000);
-  } catch (err) {
-    console.error(err);
-  }
+const safeAction = createSafeActionClient();
+
+export const testAction = safeAction.action(async () => {
+  return false;
 });
+
+export type Test = InferUseActionHookReturn<typeof testAction>; // <---- never
